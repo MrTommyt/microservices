@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/microservices.iml" filepath="$PROJECT_DIR$/microservices.iml" />
       <module fileurl="file://$PROJECT_DIR$/order/order.iml" filepath="$PROJECT_DIR$/order/order.iml" />
-      <module fileurl="file://$PROJECT_DIR$/producto/product.iml" filepath="$PROJECT_DIR$/producto/product.iml" />
     </modules>
   </component>
 </project>
