@@ -8,11 +8,23 @@
         <outputRelativeToContentRoot value="true" />
         <module name="order" />
       </profile>
+      <profile name="Annotation profile for payments" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="inventory" />
+        <module name="payments" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="inventory" options="-parameters" />
       <module name="order" options="-parameters" />
+      <module name="payments" options="-parameters" />
     </option>
   </component>
 </project>
