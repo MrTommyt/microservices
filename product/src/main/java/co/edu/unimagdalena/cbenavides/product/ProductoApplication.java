@@ -1,4 +1,4 @@
-package co.edu.unimagdalena.cbenavides.producto;
+package co.edu.unimagdalena.cbenavides.product;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

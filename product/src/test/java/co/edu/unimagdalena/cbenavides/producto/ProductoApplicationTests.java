@@ -1,4 +1,4 @@
-package co.edu.unimagdalena.cbenavides.producto;
+package co.edu.unimagdalena.cbenavides.product;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

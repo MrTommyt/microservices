@@ -1,7 +1,7 @@
-package co.edu.unimagdalena.cbenavides.producto.service;
+package co.edu.unimagdalena.cbenavides.product.service;
 
 
-import co.edu.unimagdalena.cbenavides.producto.dto.ProductDto;
+import co.edu.unimagdalena.cbenavides.product.dto.ProductDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

@@ -1,4 +1,4 @@
-package co.edu.unimagdalena.cbenavides.producto.dto;
+package co.edu.unimagdalena.cbenavides.product.dto;
 
 public class ProductDto {
     private String name;

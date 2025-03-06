@@ -1,4 +1,4 @@
-package co.edu.unimagdalena.cbenavides.producto.entity;
+package co.edu.unimagdalena.cbenavides.product.entity;
 
 
 import jakarta.persistence.*;
