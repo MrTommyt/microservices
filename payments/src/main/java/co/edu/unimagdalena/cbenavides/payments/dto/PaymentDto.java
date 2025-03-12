@@ -61,4 +61,15 @@ public class PaymentDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "PaymentDto{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", paymentDate=" + paymentDate +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
