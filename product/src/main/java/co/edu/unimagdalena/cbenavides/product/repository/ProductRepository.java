@@ -5,8 +5,15 @@ import co.edu.unimagdalena.cbenavides.product.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ProductRepository extends JpaRepository<Product, UUID> {
-    List<Product> findByName(String name);
+    @Override
+    Optional<Product> findById(UUID id);
+
+    @Override
+    List<Product> findAll();
+
+    Optional<Product> findByName(String name);
 }
