@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
 public interface ItemService {
     Flux<ItemDTO> findAll();
     Mono<ItemDTO> findById(UUID id);

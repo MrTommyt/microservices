@@ -8,7 +8,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@Service
 public interface ProductService {
     Flux<ProductDto> findAll();
     Mono<ProductDto> findById(UUID id);

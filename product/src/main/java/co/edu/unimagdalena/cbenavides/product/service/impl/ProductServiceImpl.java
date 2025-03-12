@@ -5,17 +5,19 @@ import co.edu.unimagdalena.cbenavides.product.mapper.ProductMapper;
 import co.edu.unimagdalena.cbenavides.product.repository.ProductRepository;
 import co.edu.unimagdalena.cbenavides.product.service.ProductService;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper = ProductMapper.INSTANCE;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
