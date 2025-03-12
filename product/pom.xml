@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>co.edu.unimagdalena.cbenavides</groupId>
-    <artifactId>producto</artifactId>
+    <artifactId>product</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>producto</name>
+    <name>product</name>
     <description>producto</description>
     <url/>
     <licenses>
@@ -78,12 +78,6 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>mongodb</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.6.2</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
