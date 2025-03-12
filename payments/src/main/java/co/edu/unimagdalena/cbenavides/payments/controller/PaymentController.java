@@ -39,16 +39,8 @@ public class PaymentController {
         return paymentService.update(id, paymentDto);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    @DeleteMapping("{id}")
+    public void deletePayment(@PathVariable("id") UUID id) {
+        paymentService.delete(id);
+    }
 }
