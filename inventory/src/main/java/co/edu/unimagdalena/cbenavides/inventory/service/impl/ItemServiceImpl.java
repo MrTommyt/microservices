@@ -4,12 +4,13 @@ import co.edu.unimagdalena.cbenavides.inventory.dto.ItemDTO;
 import co.edu.unimagdalena.cbenavides.inventory.mapper.ItemMapper;
 import co.edu.unimagdalena.cbenavides.inventory.repository.ItemRepository;
 import co.edu.unimagdalena.cbenavides.inventory.service.ItemService;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.UUID;
 
+@Service
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository repository;
     private final ItemMapper mapper = ItemMapper.INSTANCE;
