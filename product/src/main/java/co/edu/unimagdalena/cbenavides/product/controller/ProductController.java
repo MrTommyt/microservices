@@ -4,7 +4,6 @@ package co.edu.unimagdalena.cbenavides.product.controller;
 import co.edu.unimagdalena.cbenavides.product.dto.ProductDto;
 import co.edu.unimagdalena.cbenavides.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -33,7 +32,7 @@ public class ProductController {
 
     @PostMapping("/")
     public Mono<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-        return productService.create(productDto);
+        return productService.save(productDto);
     }
 
     @PutMapping("{id}")
