@@ -1,6 +1,9 @@
 package co.edu.unimagdalena.cbenavides.product.dto;
 
+import java.util.UUID;
+
 public class ProductDto {
+    private UUID id;
     private String name;
     private double price;
     private String category;
@@ -9,11 +12,20 @@ public class ProductDto {
     public ProductDto() {
     }
 
-    public ProductDto(String name, double price, String category, String description) {
+    public ProductDto(UUID id, String name, double price, String category, String description) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.description = description;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {
