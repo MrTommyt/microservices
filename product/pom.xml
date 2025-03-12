@@ -78,6 +78,12 @@
             <artifactId>mongodb</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
