@@ -1,4 +1,5 @@
 networks:
+  global-network:
   order-network:
     driver: bridge
   inventory-network:
@@ -9,8 +10,8 @@ networks:
     driver: bridge
 
 services:
-  eureka-server:
-    container_name: eureka
+  discovery-server:
+    container_name: discovery
     build:
      context: ./discovery
      dockerfile: ../Dockerfile
@@ -38,8 +39,10 @@ services:
       dockerfile: ../Dockerfile
     depends_on:
       - order-postgres
+      - discovery-server
     networks:
       - order-network
+      - default
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://order-postgres:5432/orderdb
       SPRING_DATASOURCE_USERNAME: user
@@ -69,8 +72,10 @@ services:
       dockerfile: ../Dockerfile
     depends_on:
       - inventory-postgres
+      - discovery-server
     networks:
       - inventory-network
+      - default
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://inventory_postgres_db:5432/inventorydb
       SPRING_DATASOURCE_USERNAME: user
@@ -100,8 +105,10 @@ services:
       dockerfile: ../Dockerfile
     depends_on:
       - inventory-postgres
+      - discovery-server
     networks:
       - payment-network
+      - default
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5432/paymentdb
       SPRING_DATASOURCE_USERNAME: user
@@ -130,13 +137,15 @@ services:
       dockerfile: ../Dockerfile
     depends_on:
       - mongo_db
+      - discovery-server
     networks:
       - product-network
+      - default
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:mongo@mongo_db:27017/porductdb
-
     ports:
       - "8280:8080"
+
 volumes:
   order_pgdata:
   inventory_pgdata:
