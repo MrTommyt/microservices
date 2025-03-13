@@ -14,11 +14,8 @@ services:
     build:
      context: ./discovery
      dockerfile: ../Dockerfile
-#    environment:
-#      EUREKA_CLIENT_REGISTER_WITH_EUREKA: false
-#      EUREKA_CLIENT_FETCH_REGISTRY: false
     ports:
-      - "8070:8080"
+      - "8761:8761"
 
   order-postgres:
     image: postgres:15-alpine
