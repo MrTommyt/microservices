@@ -9,6 +9,17 @@ networks:
     driver: bridge
 
 services:
+  eureka-server:
+    container_name: eureka
+    build:
+     context: ./discovery
+     dockerfile: ../Dockerfile
+#    environment:
+#      EUREKA_CLIENT_REGISTER_WITH_EUREKA: false
+#      EUREKA_CLIENT_FETCH_REGISTRY: false
+    ports:
+      - "8070:8080"
+
   order-postgres:
     image: postgres:15-alpine
     container_name: order_postgres_db
