@@ -11,8 +11,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "orders")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Order {
 
     @Id
@@ -28,6 +26,16 @@ public class Order {
 
     @Column(nullable = false)
     private Double totalAmount;
+
+    public Order() {
+    }
+
+    public Order(UUID id, LocalDateTime orderDate, String status, Double totalAmount) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalAmount = totalAmount;
+    }
 
     public UUID getId() {
         return id;
