@@ -1,12 +1,14 @@
 package co.edu.unimagdalena.cbenavides.order.service.impl;
 
 import co.edu.unimagdalena.cbenavides.order.dto.OrderDto;
+import co.edu.unimagdalena.cbenavides.order.entity.Order;
 import co.edu.unimagdalena.cbenavides.order.mapper.OrderMapper;
 import co.edu.unimagdalena.cbenavides.order.repository.OrderRepository;
 import co.edu.unimagdalena.cbenavides.order.service.OrderService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.UUID;
 
@@ -31,16 +33,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Mono<OrderDto> save(OrderDto orderDto) {
-        return Mono.fromSupplier(() -> orderRepository.save(orderMapper.toOrder(orderDto))).map(orderMapper::toOrderDto);
+        return Mono.fromCallable(() -> orderRepository.save(orderMapper.toOrder(orderDto)))
+                .subscribeOn(Schedulers.boundedElastic())
+                .map(orderMapper::toOrderDto);
     }
 
     @Override
     public Mono<OrderDto> update(UUID id, OrderDto newOrderDto) {
-        return Mono.fromSupplier(() -> orderRepository.findById(id).map(ord -> {
-            ord.setId(id);
-            ord.setOrderDate(newOrderDto.getOrderDate());
-            ord.setStatus(newOrderDto.getStatus());
-            ord.setTotalAmount(newOrderDto.getTotalAmount());
+        return Mono.fromCallable(() -> orderRepository.findById(id).map(ord -> {
+            ord = orderMapper.toOrder(newOrderDto);
+            ord = orderRepository.save(ord);
 
             return ord;
         }).map(orderMapper::toOrderDto).orElse(null));
