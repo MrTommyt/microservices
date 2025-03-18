@@ -7,6 +7,7 @@ import co.edu.unimagdalena.cbenavides.inventory.service.ItemService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.UUID;
 
@@ -33,16 +34,17 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Mono<ItemDTO> save(ItemDTO item) {
-        return Mono.fromSupplier(() -> repository.save(mapper.toItem(item)))
-            .map(mapper::toItemDTO);
+        return Mono.fromCallable(() -> repository.save(mapper.toItem(item)))
+                .subscribeOn(Schedulers.boundedElastic())
+                .map(mapper::toItemDTO);
     }
 
     @Override
     public Mono<ItemDTO> update(UUID id, ItemDTO item) {
-        return Mono.fromSupplier(() -> repository.findById(id).map(it -> {
-            it.setId(id);
-            it.setProduct(item.getProduct());
-            it.setQuantity(item.getQuantity());
+        return Mono.fromCallable(() -> repository.findById(id).map(it -> {
+            it = mapper.toItem(item);
+            it = repository.save(it);
+
             return it;
         }).map(mapper::toItemDTO).orElse(null));
     }

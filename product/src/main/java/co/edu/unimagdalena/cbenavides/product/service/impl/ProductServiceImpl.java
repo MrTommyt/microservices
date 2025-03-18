@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.UUID;
 
@@ -33,16 +34,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<ProductDto> save(ProductDto productDto) {
-        return Mono.fromSupplier(() -> productRepository.save(productMapper.toProduct(productDto))).map(productMapper::toProductDto);
+        return Mono.fromCallable(() -> productRepository.save(productMapper.toProduct(productDto)))
+                .subscribeOn(Schedulers.boundedElastic())
+                .map(productMapper::toProductDto);
     }
 
     @Override
     public Mono<ProductDto> update(UUID id, ProductDto newProductDto) {
         return Mono.fromSupplier(() -> productRepository.findById(id).map(prod -> {
-            prod.setId(id);
-            prod.setName(newProductDto.getName());
-            prod.setDescription(newProductDto.getDescription());
-            prod.setPrice(newProductDto.getPrice());
+            prod = productMapper.toProduct(newProductDto);
+            prod = productRepository.save(prod);
+
             return prod;
         }).map(productMapper::toProductDto).orElse(null));
     }
