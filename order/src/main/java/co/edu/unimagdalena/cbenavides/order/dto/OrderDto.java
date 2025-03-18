@@ -1,13 +1,28 @@
 package co.edu.unimagdalena.cbenavides.order.dto;
 
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Data
+@Setter
+@Getter
 public class OrderDto {
     private UUID id;
     private LocalDateTime orderDate;
     private String status;
     private Double totalAmount;
+
+    public OrderDto() {
+    }
+
+    public OrderDto(UUID id, LocalDateTime orderDate, String status, Double totalAmount) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalAmount = totalAmount;
+    }
 
     public UUID getId() {
         return id;
@@ -39,15 +54,5 @@ public class OrderDto {
 
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderDto{" +
-                "id=" + id +
-                ", orderDate=" + orderDate +
-                ", status='" + status + '\'' +
-                ", totalAmount=" + totalAmount +
-                '}';
     }
 }
