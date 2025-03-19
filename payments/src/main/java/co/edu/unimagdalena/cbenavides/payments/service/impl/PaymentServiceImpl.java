@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.UUID;
 
@@ -34,17 +35,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Mono<PaymentDto> save(PaymentDto paymentDto) {
-        return Mono.fromSupplier(() -> paymentRepository.save(paymentMapper.toPayment(paymentDto))).map(paymentMapper::toPaymentDto);
+        return Mono.fromCallable(() -> paymentRepository.save(paymentMapper.toPayment(paymentDto)))
+                .subscribeOn(Schedulers.boundedElastic())
+                .map(paymentMapper::toPaymentDto);
     }
 
     @Override
     public Mono<PaymentDto> update(UUID id, PaymentDto newPaymentDto) {
-        return Mono.fromSupplier(() -> paymentRepository.findById(id).map(pay -> {
-            pay.setId(id);
-            pay.setAmount(newPaymentDto.getAmount());
-            pay.setPaymentDate(newPaymentDto.getPaymentDate());
-            pay.setPaymentMethod(newPaymentDto.getPaymentMethod());
-            pay.setDescription(newPaymentDto.getDescription());
+        return Mono.fromCallable(() -> paymentRepository.findById(id).map(pay -> {
+            pay = paymentMapper.toPayment(newPaymentDto);
+            pay = paymentRepository.save(pay);
 
             return pay;
         }).map(paymentMapper::toPaymentDto).orElse(null));
