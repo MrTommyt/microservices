@@ -1,7 +1,5 @@
 package co.edu.unimagdalena.cbenavides.inventory.dto;
 
-import jakarta.persistence.*;
-
 import java.util.Objects;
 import java.util.UUID;
 

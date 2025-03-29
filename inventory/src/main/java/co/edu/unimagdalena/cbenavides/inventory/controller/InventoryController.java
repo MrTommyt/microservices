@@ -2,6 +2,7 @@ package co.edu.unimagdalena.cbenavides.inventory.controller;
 
 import co.edu.unimagdalena.cbenavides.inventory.dto.ItemDTO;
 import co.edu.unimagdalena.cbenavides.inventory.service.ItemService;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -22,6 +23,7 @@ public class InventoryController {
         return itemService.findAll();
     }
 
+    @LoadBalanced
     @GetMapping("{id}")
     public Mono<ItemDTO> getFromId(@PathVariable("id") UUID id) {
         return itemService.findById(id);

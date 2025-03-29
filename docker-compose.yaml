@@ -23,6 +23,9 @@ services:
     container_name: order_postgres_db
     networks:
       - order-network
+    profiles:
+      - default
+      - order
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pwd1
@@ -40,6 +43,9 @@ services:
     depends_on:
       - order-postgres
       - discovery-server
+    profiles:
+      - default
+      - order
     networks:
       - order-network
       - default
@@ -58,6 +64,9 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pwd2
       POSTGRES_DB: inventorydb
+    profiles:
+      - default
+      - inventory
     networks:
       - inventory-network
 #    ports:
@@ -73,6 +82,9 @@ services:
     depends_on:
       - inventory-postgres
       - discovery-server
+    profiles:
+      - default
+      - inventory
     networks:
       - inventory-network
       - default
@@ -93,6 +105,9 @@ services:
       POSTGRES_DB: paymentdb
     networks:
       - payment-network
+    profiles:
+      - default
+      - payment
 #    ports:
 #      - "5432:5432"
     volumes:
@@ -106,6 +121,9 @@ services:
     depends_on:
       - inventory-postgres
       - discovery-server
+    profiles:
+      - default
+      - payment
     networks:
       - payment-network
       - default
@@ -127,6 +145,9 @@ services:
       - "27017:27017"
     networks:
       - product-network
+    profiles:
+      - default
+      - product
     volumes:
       - mongo_data:/data/db
 
@@ -138,6 +159,9 @@ services:
     depends_on:
       - mongo_db
       - discovery-server
+    profiles:
+      - default
+      - product
     networks:
       - product-network
       - default
