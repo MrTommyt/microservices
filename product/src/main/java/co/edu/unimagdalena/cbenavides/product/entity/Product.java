@@ -18,6 +18,17 @@ public class Product {
     private String category;
     private String description;
 
+    public Product() {
+    }
+
+    public Product(UUID id, String name, Double price, String category, String description) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.description = description;
+    }
+
     public UUID getId() {
         return id;
     }
