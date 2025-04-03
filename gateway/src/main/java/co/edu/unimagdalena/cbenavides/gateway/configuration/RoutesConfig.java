@@ -1,5 +1,6 @@
 package co.edu.unimagdalena.cbenavides.gateway.configuration;
 
+import co.edu.unimagdalena.cbenavides.gateway.filters.CachingFilter;
 import co.edu.unimagdalena.cbenavides.gateway.filters.CorrelationIdFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -9,9 +10,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RoutesConfig {
     private final CorrelationIdFilter correlationIdFilter;
+    private final CachingFilter cachingFilter;
 
-    public RoutesConfig(CorrelationIdFilter correlationIdFilter) {
+    public RoutesConfig(CorrelationIdFilter correlationIdFilter, CachingFilter cachingFilter) {
         this.correlationIdFilter = correlationIdFilter;
+        this.cachingFilter = cachingFilter;
     }
 
     @Bean
@@ -22,7 +25,9 @@ public class RoutesConfig {
             .route("inventory_route", r ->
                 r.path("/api/v1/inventory/**").filters(f -> f.filter(correlationIdFilter)).uri("lb://inventory-service"))
             .route("product_route", r ->
-                r.path("/api/v1/product/**").filters(f -> f.filter(correlationIdFilter)).uri("lb://product-service"))
+                r.path("/api/v1/product/**").filters(f -> f
+                    .filter(correlationIdFilter)
+                    .filter(cachingFilter)).uri("lb://product-service"))
             .route("order_route", r ->
                 r.path("/api/v1/order/**").filters(f -> f.filter(correlationIdFilter)).uri("lb://order-service"))
             .build();
