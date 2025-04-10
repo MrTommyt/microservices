@@ -15,6 +15,12 @@ services:
     build:
      context: ./discovery
      dockerfile: ../Dockerfile
+    profiles:
+      - default
+      - order
+      - inventory
+      - payment
+      - product
     ports:
       - "8761:8761"
 

@@ -1,6 +1,5 @@
 package co.edu.unimagdalena.cbenavides.product.entity;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;

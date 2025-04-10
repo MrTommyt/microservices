@@ -1,16 +1,24 @@
 package co.edu.unimagdalena.cbenavides.inventory.entity;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
+@Entity
+@Table(name = "items")
 public class Item {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private UUID product;
 
+    @Column(nullable = false)
     private int quantity;
+
+    public Item() {
+    }
 
     public Item(UUID id, UUID product, int quantity) {
         this.id = id;
@@ -41,4 +49,5 @@ public class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }

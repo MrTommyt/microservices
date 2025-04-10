@@ -10,7 +10,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@Controller("v1/inventory")
+@RestController
+@RequestMapping("/api/v1/inventory")
 public class InventoryController {
     private final ItemService itemService;
 
