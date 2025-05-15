@@ -180,7 +180,7 @@ services:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./data/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:
@@ -200,6 +200,24 @@ services:
       - prometheus
     profiles:
       - default
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.1
+    container_name: keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev
+    ports:
+      - "8081:8080"
+    networks:
+      - global-network
+    profiles:
+      - default
+      - auth
+    volumes:
+      - ./data/keycloak:/opt/keycloak/data
     restart: unless-stopped
 
 
