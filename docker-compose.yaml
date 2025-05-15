@@ -180,7 +180,7 @@ services:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      - ./data/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:
@@ -219,6 +219,7 @@ services:
     volumes:
       - ./data/keycloak:/opt/keycloak/data
     restart: unless-stopped
+
 
 
 volumes:
