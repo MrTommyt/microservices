@@ -1,4 +1,4 @@
-package com.example.gateway;
+package co.edu.unimagdalena.cbenavides.gateway.components;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
