@@ -1,3 +1,6 @@
+server:
+  port: 8480
+
 spring:
   application:
     name: gateway
