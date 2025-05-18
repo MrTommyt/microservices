@@ -143,6 +143,7 @@ services:
 
   mongo_db:
     image: mongo:6.0
+    platform: linux/amd64
     container_name: mongo_db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongo
@@ -175,6 +176,27 @@ services:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:mongo@mongo_db:27017/porductdb
     ports:
       - "8280:8080"
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: ../Dockerfile
+    container_name: gateway
+    ports:
+      - "8480:8480"
+    depends_on:
+      - discovery-server
+      - payment-service
+      - product-service
+      - order-service
+      - inventory-service
+    profiles:
+      - default
+    networks:
+      - default
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+
 
   prometheus:
     image: prom/prometheus
