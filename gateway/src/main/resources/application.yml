@@ -49,4 +49,19 @@ management:
   metrics:
     export:
       prometheus:
-        enabled: true
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+otel:
+  traces:
+    exporter: zipkin
+    sampler:
+      probability: 1.0
+  exporter:
+    zipkin:
+      endpoint: http://localhost:9411/api/v2/spans
+  resource:
+    attributes:
+      service.name: ${spring.application.name}
