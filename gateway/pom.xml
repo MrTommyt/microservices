@@ -91,9 +91,15 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2022.0.4</version> <!-- Usa la versión más reciente adecuada a tu proyecto -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
-    </dependencyManagement>
+</dependencyManagement>
 
     <build>
         <plugins>
