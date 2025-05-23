@@ -16,21 +16,75 @@ spring:
           uri: lb://payment-service
           predicates:
             - Path=/api/v1/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: paymentCircuitBreaker
+                fallbackUri: forward:/fallback/payment
 
         - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/api/v1/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: productCircuitBreaker
+                fallbackUri: forward:/fallback/product
 
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/api/v1/order/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: orderCircuitBreaker
+                fallbackUri: forward:/fallback/order
 
         - id: inventory-service
           uri: lb://inventory-service
           predicates:
             - Path=/api/v1/inventory/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: inventoryCircuitBreaker
+                fallbackUri: forward:/fallback/inventory
+resilience4j:
+  circuitbreaker:
+    instances:
+      productCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 6s
+        permittedNumberOfCallsInHalfOpenState: 2
+
+      orderCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 6s
+        permittedNumberOfCallsInHalfOpenState: 2
+
+      paymentCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 6s
+        permittedNumberOfCallsInHalfOpenState: 2
+
+      inventoryCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 6s
+        permittedNumberOfCallsInHalfOpenState: 2
 
 eureka:
   client:
