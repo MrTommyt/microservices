@@ -7,23 +7,23 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 
-@Component
+@Service
 public class RedisCachingGatewayFilterFactory extends AbstractGatewayFilterFactory<RedisCachingGatewayFilterFactory.Config> {
 
-    @Autowired
-    private CacheManager cacheManager;
+    private final ReactiveCacheManager reactiveCacheManager;
 
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    public RedisCachingGatewayFilterFactory() {
-        super(Config.class);
+    @Autowired
+    public RedisCachingGatewayFilterFactory(ReactiveCacheManager reactiveCacheManager) {
+        this.reactiveCacheManager = reactiveCacheManager;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RedisCachingGatewayFilterFactory extends AbstractGatewayFilterFacto
             }
 
             String productId = parts[5];
-            Cache cache = cacheManager.getCache("productsCache");
+            Cache cache = reactiveCacheManager.getCache("productsCache");
 
             if (cache != null) {
                 String cachedProduct = cache.get(productId, String.class);
