@@ -18,8 +18,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: "prometheus"
-  metrics:
+        include: health,info,metrics,prometheus,threaddump,logfile,trace
+  tracing:
+    sampling:
+      probability: 1.0
     export:
-      prometheus:
+      zipkin:
+        endpoint: http://localhost:9411/api/v2/spans
+  prometheus:
+    metrics:
+      export:
         enabled: true
