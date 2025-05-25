@@ -52,7 +52,7 @@ spring:
                 name: inventoryCircuitBreaker
                 fallbackUri: forward:/fallback/inventory
 resilience4j:
-  circuitbreaker:
+  CircuitBreaker:
     instances:
       productCircuitBreaker:
         registerHealthIndicator: true

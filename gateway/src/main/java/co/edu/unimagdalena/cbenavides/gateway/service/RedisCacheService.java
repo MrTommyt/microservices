@@ -13,7 +13,7 @@ public class RedisCacheService {
     private final ReactiveRedisTemplate<String, String> redisTemplate;
 
     @Autowired
-    public RedisCacheService(@Qualifier("2reactiveRedisTemplate") ReactiveRedisTemplate<String, String> redisTemplate) {
+    public RedisCacheService(@Qualifier("reactiveRedisTemplate") ReactiveRedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 

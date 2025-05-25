@@ -194,6 +194,10 @@ services:
       - default
     networks:
       - default
+      - product-network
+      - inventory-network
+      - order-network
+      - payment-network
     environment:
       - SPRING_PROFILES_ACTIVE=default
 
