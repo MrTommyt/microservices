@@ -15,4 +15,17 @@
         <module>payments</module>
         <module>product</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.loki4j</groupId>
+            <artifactId>loki-logback-appender</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+    </dependencies>
 </project>
