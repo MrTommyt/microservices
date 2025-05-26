@@ -28,6 +28,9 @@ public class LoggingFilter implements WebFilter {
         logger.info("Solicitud recibida: [{}] {}", method, path);
 
         return chain.filter(exchange)
-            .doOnSuccess(aVoid -> logger.info("Respuesta enviada para: [{}] {}", method, path));
+            .doOnSuccess(aVoid -> logger.info("Respuesta enviada para: [{}] {}", method, path))
+            .doOnCancel(() -> logger.info("Solicitud cancelada: [{}] {}", method, path))
+            .doOnTerminate(() -> logger.info("Solicitud finalizada: [{}] {}", method, path))
+            .doOnError(throwable -> logger.error("Error al procesar la solicitud: [{}] {}", method, path, throwable));
     }
 }

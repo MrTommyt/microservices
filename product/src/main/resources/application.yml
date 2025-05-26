@@ -16,6 +16,9 @@ eureka:
 
 
 management:
+  endpoint:
+    prometheus:
+      access: unrestricted
   endpoints:
     web:
       exposure:
