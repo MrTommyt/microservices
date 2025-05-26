@@ -8,6 +8,8 @@ networks:
     driver: bridge
   product-network:
     driver: bridge
+  gateway-redis-network:
+    driver: bridge
 
 services:
   discovery-server:
@@ -144,7 +146,7 @@ services:
   mongo_db:
     image: mongo:6.0
     platform: linux/amd64
-    container_name: mongo_db
+    container_name: mongo-db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongo
       - MONGO_INITDB_ROOT_PASSWORD=mongo
@@ -194,9 +196,26 @@ services:
       - default
     networks:
       - default
+      - gateway-redis-network
+      - order-network
+      - payment-network
+      - inventory-network
+      - product-network
     environment:
       - SPRING_PROFILES_ACTIVE=default
 
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    networks:
+      - gateway-redis-network
+    profiles:
+      - default
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
 
   prometheus:
     image: prom/prometheus
@@ -242,12 +261,11 @@ services:
       - ./data/keycloak:/opt/keycloak/data
     restart: unless-stopped
 
-
-
 volumes:
   order_pgdata:
   inventory_pgdata:
   payment_pgdata:
   mongo_data:
+  redis_data:
 
 
