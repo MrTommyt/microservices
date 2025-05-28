@@ -1,6 +1,6 @@
 package co.edu.unimagdalena.cbenavides.gateway.filters;
 
-import co.edu.unimagdalena.cbenavides.gateway.service.RedisCacheService;
+import co.edu.unimagdalena.cbenavides.gateway.components.manager.ReactiveCacheManager;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -24,10 +24,10 @@ import java.time.Duration;
 @Component
 public class CachingFilter implements GatewayFilter, Ordered {
 
-    private final RedisCacheService cacheService;
+    private final ReactiveCacheManager cacheManager;
 
-    public CachingFilter(RedisCacheService cacheService) {
-        this.cacheService = cacheService;
+    public CachingFilter(ReactiveCacheManager  cacheManager) {
+        this.cacheManager = cacheManager;
     }
 
     private static final Duration TTL = Duration.ofMinutes(5);
@@ -43,7 +43,7 @@ public class CachingFilter implements GatewayFilter, Ordered {
 
         String cacheKey = "CACHE::" + request.getURI().toString();
 
-        return cacheService.get(cacheKey)
+        return cacheManager.get(cacheKey)
             .flatMap(cachedBody -> {
                 // Si hay respuesta cacheada, devolverla directamente
                 byte[] bytes = cachedBody.getBytes(StandardCharsets.UTF_8);
@@ -69,8 +69,8 @@ public class CachingFilter implements GatewayFilter, Ordered {
 
                                     // Cacheamos la respuesta
                                     String bodyStr = new String(content, StandardCharsets.UTF_8);
-                                    cacheService.set(cacheKey, bodyStr, TTL).subscribe();
 
+                                    cacheManager.set(cacheKey, bodyStr, TTL).subscribe();
                                     return bufferFactory.wrap(content);
                                 })
                             );
