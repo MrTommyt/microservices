@@ -24,6 +24,7 @@ public class RedisCachingGatewayFilterFactory extends AbstractGatewayFilterFacto
 
     @Autowired
     public RedisCachingGatewayFilterFactory(ReactiveCacheManager reactiveCacheManager) {
+        super(Config.class);
         this.reactiveCacheManager = reactiveCacheManager;
     }
 
@@ -39,6 +40,7 @@ public class RedisCachingGatewayFilterFactory extends AbstractGatewayFilterFacto
             }
 
             String productId = parts[5];
+            Duration ttl = Duration.ofMinutes(config.getTtlMinutes());
 
             // Usar ReactiveCacheManager para obtener el valor en caché
             return reactiveCacheManager.get(productId)
@@ -57,7 +59,7 @@ public class RedisCachingGatewayFilterFactory extends AbstractGatewayFilterFacto
                                 .retrieve()
                                 .bodyToMono(String.class)
                                 .flatMap(product ->
-                                        reactiveCacheManager.set(productId, product, Duration.ofMinutes(5))
+                                        reactiveCacheManager.set(productId, product, ttl)
                                                 .then(Mono.defer(() -> {
                                                     DataBuffer buffer = exchange.getResponse().bufferFactory()
                                                             .wrap(product.getBytes(StandardCharsets.UTF_8));
@@ -70,5 +72,14 @@ public class RedisCachingGatewayFilterFactory extends AbstractGatewayFilterFacto
     }
 
     public static class Config {
+        private long ttlMinutes = 5;
+
+        public long getTtlMinutes() {
+            return ttlMinutes;
+        }
+
+        public void setTtlMinutes(long ttlMinutes) {
+            this.ttlMinutes = ttlMinutes;
+        }
     }
 }
