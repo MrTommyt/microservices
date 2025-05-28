@@ -23,7 +23,7 @@ public class RedisConfig {
 //        return new LettuceConnectionFactory(redisConfig);
 //    }
 
-    @Bean
+    @Bean(name = "objectReactiveRedisTemplate")
     public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(
         ReactiveRedisConnectionFactory connectionFactory) {
 
