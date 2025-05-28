@@ -22,6 +22,7 @@ spring:
                 name: paymentCircuitBreaker
                 fallbackUri: forward:/fallback/payment
             #- name: CorrelationIdFilter
+            - name: CorrelationId
 
         - id: product-service
           uri: lb://product-service
@@ -36,6 +37,7 @@ spring:
             - name: RedisCaching
               args:
                 ttlMinutes: 5
+            - name: CorrelationId
 
         - id: order-service
           uri: lb://order-service
@@ -47,6 +49,7 @@ spring:
                 name: orderCircuitBreaker
                 fallbackUri: forward:/fallback/order
             #- name: CorrelationIdFilter
+            - name: CorrelationId
 
         - id: inventory-service
           uri: lb://inventory-service
@@ -58,6 +61,7 @@ spring:
                 name: inventoryCircuitBreaker
                 fallbackUri: forward:/fallback/inventory
             #- name: CorrelationIdFilter
+            - name: CorrelationId
 
   data:
     redis:
