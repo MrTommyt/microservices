@@ -47,7 +47,6 @@ services:
       - order_pgdata:/var/lib/postgresql/data
 
   order-service:
-    container_name: order-service
     build:
       context: ./order
       dockerfile: ../Dockerfile
@@ -60,13 +59,15 @@ services:
     networks:
       - order-network
       - default
+    deploy:
+      replicas: 3
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://order-postgres:5432/orderdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd1
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    ports:
-      - "8080:8080"
+#    ports:
+#      - "8080:8080"
 
   inventory-postgres:
     image: postgres:15-alpine
@@ -84,7 +85,6 @@ services:
       - inventory_pgdata:/var/lib/postgresql/data
 
   inventory-service:
-    container_name: inventory-service
     build:
       context: ./inventory
       dockerfile: ../Dockerfile
@@ -94,6 +94,8 @@ services:
     profiles:
       - default
       - inventory
+    deploy:
+      replicas: 3
     networks:
       - inventory-network
       - default
@@ -102,8 +104,8 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd2
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    ports:
-      - "8180:8080"
+#    ports:
+#      - "8180:8080"
 
   payment-postgres:
     image: postgres:15-alpine
@@ -121,7 +123,6 @@ services:
       - payment_pgdata:/var/lib/postgresql/data
 
   payment-service:
-    container_name: payment-service
     build:
       context: ./payments
       dockerfile: ../Dockerfile
@@ -131,6 +132,8 @@ services:
     profiles:
       - default
       - payment
+    deploy:
+      replicas: 3
     networks:
       - payment-network
       - default
@@ -139,8 +142,8 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pwd3
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    ports:
-      - "8380:8080"
+#    ports:
+#      - "8380:8080"
 
   mongo_db:
     image: mongo:6.0
@@ -160,7 +163,6 @@ services:
       - mongo_data:/data/db
 
   product-service:
-    container_name: product-service
     build:
       context: ./product
       dockerfile: ../Dockerfile
@@ -170,13 +172,15 @@ services:
     profiles:
       - default
       - product
+    deploy:
+      replicas: 3
     networks:
       - product-network
       - default
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:mongo@mongo_db:27017/porductdb
-    ports:
-      - "8280:8080"
+#    ports:
+#      - "8280:8080"
 
   gateway:
     build:
