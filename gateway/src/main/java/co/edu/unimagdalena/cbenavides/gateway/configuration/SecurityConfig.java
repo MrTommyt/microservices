@@ -1,5 +1,11 @@
 package co.edu.unimagdalena.cbenavides.gateway.configuration;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
+
 @EnableWebSecurity
 public class SecurityConfig {
 
@@ -7,8 +13,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
           .authorizeHttpRequests(authorize -> authorize
-              .requestMatchers("/admin/**").hasRole("ADMIN")
-              .requestMatchers("/user/**").hasRole("USER")
+                  .requestMatchers("/admin/**").hasRole("ADMIN")
+                  .requestMatchers("/user/**").hasRole("USER")
+                  .requestMatchers("/api/**").hasRole("USER")
               .anyRequest().authenticated())
           .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return http.build();
