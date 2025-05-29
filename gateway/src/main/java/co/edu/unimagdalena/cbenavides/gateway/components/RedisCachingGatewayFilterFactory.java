@@ -55,7 +55,7 @@ public class RedisCachingGatewayFilterFactory extends AbstractGatewayFilterFacto
                         // Si no está en caché, llamar al microservicio
                         return webClientBuilder.build()
                                 .get()
-                                .uri("http://product-service/api/v1/product/products/" + productId)
+                                .uri("lb://product-service/api/v1/product/products/" + productId)
                                 .retrieve()
                                 .bodyToMono(String.class)
                                 .flatMap(product ->
