@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RoutesConfig {
-    @Autowired
     private final CorrelationIdGatewayFilterFactory correlationIdGatewayFilterFactory;
     private final CachingFilter cachingFilter;
 
@@ -23,15 +22,22 @@ public class RoutesConfig {
     public RouteLocator customRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
             .route("payment_route", r ->
-                r.path("/api/v1/payment/**").filters(f -> f.filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config()))).uri("lb://payment-service"))
+                r.path("/api/v1/payment/**").filters(f -> f
+                        .filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config())))
+                    .uri("lb://payment-service"))
             .route("inventory_route", r ->
-                r.path("/api/v1/inventory/**").filters(f -> f.filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config()))).uri("lb://inventory-service"))
+                r.path("/api/v1/inventory/**").filters(f -> f
+                        .filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config())))
+                    .uri("lb://inventory-service"))
             .route("product_route", r ->
                 r.path("/api/v1/product/**").filters(f -> f
-                    .filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config()))
-                    .filter(cachingFilter)).uri("lb://product-service"))
+                        .filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config()))
+                        .filter(cachingFilter))
+                    .uri("lb://product-service"))
             .route("order_route", r ->
-                r.path("/api/v1/order/**").filters(f -> f.filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config()))).uri("lb://order-service"))
+                r.path("/api/v1/order/**").filters(f -> f
+                        .filter(correlationIdGatewayFilterFactory.apply(new CorrelationIdGatewayFilterFactory.Config())))
+                    .uri("lb://order-service"))
             .build();
     }
 }

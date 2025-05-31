@@ -69,7 +69,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/myrealm
+          issuer-uri: http://keycloak:8080/realms/microservices
 
 resilience4j:
   circuitbreaker:
@@ -111,7 +111,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery-server:8761/eureka/
   instance:
     prefer-ip-address: true
 
@@ -130,6 +130,19 @@ management:
     tracing:
       endpoint: http://zipkin:9411/api/v2/spans
 logging:
-  loki:
-    # Dirección de tu instancia de Grafana Loki
-    url: http://loki:3100/loki/api/v1/push
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+  loki: # Dirección de tu instancia de Grafana Loki
+      url: http://loki:3100/loki/api/v1/push
+
+
+keycloak:
+  token-uri: /realms/microservices/protocol/openid-connect/token
+  auth-server-url: http://keycloak:8080
+#  auth-server-url: http://localhost:8081
+  realm: microservices
+  username: admin
+  password: admin
+  client-id: admin-cli
+  client-secret: diyCOlDlIaRoe4ipe65vCWZtTcmwJCH8
