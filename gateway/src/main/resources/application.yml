@@ -69,7 +69,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/microservices
+          issuer-uri: http://keycloak:8080/realms/master
 
 resilience4j:
   circuitbreaker:
@@ -108,10 +108,10 @@ resilience4j:
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
       defaultZone: http://discovery-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
   instance:
     prefer-ip-address: true
 
@@ -138,11 +138,11 @@ logging:
 
 
 keycloak:
-  token-uri: /realms/microservices/protocol/openid-connect/token
+  token-uri: /realms/master/protocol/openid-connect/token
   auth-server-url: http://keycloak:8080
 #  auth-server-url: http://localhost:8081
-  realm: microservices
+  realm: master
   username: admin
   password: admin
-  client-id: admin-cli
-  client-secret: diyCOlDlIaRoe4ipe65vCWZtTcmwJCH8
+  client-id: my-client
+  client-secret: arGBqupst5QAc3s2oK7YI8LFtUWw7mYc
