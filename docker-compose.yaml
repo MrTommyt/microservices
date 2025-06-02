@@ -180,7 +180,9 @@ services:
       - product-network
       - default
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:mongo@mongo_db:27017/porductdb
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:mongo@mongo_db:27017/porductdb?authSource=admin
+      SPRING_DATA_MONGODB_USERNAME: mongo
+      SPRING_DATA_MONGODB_PASSWORD: mongo
 #    ports:
 #      - "8280:8080"
 

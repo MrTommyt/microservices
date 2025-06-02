@@ -34,9 +34,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<ProductDto> save(ProductDto productDto) {
-        return Mono.fromCallable(() -> productRepository.save(productMapper.toProduct(productDto)))
+        if (productDto.getId() == null) {
+            productDto.setId(UUID.randomUUID());
+        }
+
+        return Mono.fromCallable(() -> {
+                    return productRepository.save(productMapper.toProduct(productDto));
+                })
                 .subscribeOn(Schedulers.boundedElastic())
-                .map(productMapper::toProductDto);
+                .map(productMapper::toProductDto)
+                .doOnError(error -> {
+                    error.printStackTrace(); // 👈 esto te va a mostrar el verdadero motivo del error 500
+                });
     }
 
     @Override
