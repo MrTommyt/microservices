@@ -42,7 +42,7 @@ class PaymentControllerTest {
         PaymentDto dto = new PaymentDto();
         when(paymentService.findById(id)).thenReturn(Mono.just(dto));
 
-        PaymentDto result = paymentController.getPaymentById(id);
+        PaymentDto result = paymentController.getPaymentById(id).block();
 
         assertNotNull(result);
         verify(paymentService, times(1)).findById(id);

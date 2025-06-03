@@ -25,8 +25,8 @@ public class PaymentController {
     }
 
     @GetMapping("/payments/{id}")
-    public PaymentDto getPaymentById(@PathVariable("id") UUID id) {
-        return paymentService.findById(id).block();
+    public Mono<PaymentDto> getPaymentById(@PathVariable("id") UUID id) {
+        return paymentService.findById(id);
     }
 
     @PostMapping("/")

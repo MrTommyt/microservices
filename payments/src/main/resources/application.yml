@@ -1,6 +1,6 @@
 spring:
   application:
-    name: payments
+    name: payment-service
 
 server:
   port: 8080
