@@ -129,7 +129,7 @@ services:
       context: ./payments
       dockerfile: ../Dockerfile
     depends_on:
-      - inventory-postgres
+      - payment-postgres
       - discovery-server
     profiles:
       - default
