@@ -30,9 +30,10 @@ public class SecurityConfig {
             .securityMatcher(ServerWebExchangeMatchers.pathMatchers("/api/**", "/admin/**"))
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(exchanges -> exchanges
-                .pathMatchers("/admin/**").hasRole("ADMIN")
-                .pathMatchers("/api/**").authenticated()
-                .anyExchange().authenticated()
+                    .pathMatchers("/admin/**").hasRole("ADMIN")
+                    //.pathMatchers("/api/v1/payment").hasRole("ADMIN")
+                    .pathMatchers("/api/**").hasAnyRole("ADMIN", "USER")
+                    .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor()))
@@ -67,7 +68,8 @@ public class SecurityConfig {
     private ReactiveJwtAuthenticationConverterAdapter grantedAuthoritiesExtractor() {
         JwtGrantedAuthoritiesConverter delegate = new JwtGrantedAuthoritiesConverter();
         delegate.setAuthorityPrefix("ROLE_");
-        delegate.setAuthoritiesClaimName("realm_access.roles");
+//        delegate.setAuthoritiesClaimName("realm_access.roles");
+        delegate.setAuthoritiesClaimName("resource_access.my-client.roles");
 
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(delegate);
